@@ -24,8 +24,9 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(name: params[:name], project_id: params[:project_id])
-    @tasks = Task.all
+    @task = Task.new(name: params[:name], project_id: params[:project_id], complete: false)
+    @complete_tasks = Task.where(complete: false)
+    @incomplete_tasks = Task.where(complete: true)
     respond_to do |format|
       if @task.save
         format.html { redirect_to project_path(params[:project_id]), notice: 'Task was successfully created.' }
@@ -40,15 +41,11 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update
-    respond_to do |format|
-      if @task.update(task_params)
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
+    if @task.update(complete: true)
+      redirect_to project_path(params[:project_id])
     end
+    @complete_tasks = Task.where(complete: false)
+    @incomplete_tasks = Task.where(complete: true)
   end
 
   # DELETE /tasks/1
@@ -62,13 +59,13 @@ class TasksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @task = Task.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_task
+    @task = Task.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def task_params
-      params.require(:task).permit(:name, :project_id) if params[:task].present?
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def task_params
+    params.require(:task).permit(:name, :project_id) if params[:task].present?
+  end
 end

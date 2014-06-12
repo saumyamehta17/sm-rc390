@@ -5,27 +5,25 @@
 
 <div class="form-actions">
   <%= form_tag project_tasks_path(@project), method: :post do %>
-      <%= text_field_tag :name %>
-      <%= submit_tag 'Create Task', class: 'btn btn-primary' %>
+      <%= text_field_tag :name  %>
+      <%= submit_tag 'Add Task', class: 'btn btn-primary' %>
   <% end %>
   <h4>Incomplete Tasks</h4>
   <div id='incomplete_check'>
-  <% unless Task.all.blank? %>
-      <% Task.all.each do |task| %>
-          <%= check_box_tag '', task.id %><%= task.name %><br/>
-      <% end %>
-  <% end %>
+    <% unless Task.where(complete: false).blank? %>
+        <% Task.where(complete: false).each do |task| %>
+            <%= form_tag project_task_path(@project,task), method: :put do %>
+                <%= check_box_tag '', task.id,nil, { onclick: 'this.form.submit();' }  %><%= task.name %><br/>
+            <% end %>
+        <% end %>
+    <% end %>
   </div>
   <div id='complete_check'>
-  <h4>Complete Tasks</h4>
+    <h4>Complete Tasks</h4>
+    <% unless Task.where(complete: true).blank? %>
+        <% Task.where(complete: true).each do |task| %>
+            <%= task.name %><br/>
+        <% end %>
+    <% end %>
   </div>
-  <%#= link_to t('.back', :default =>ActionController::ParameterMissing Exception: param not found t("helpers.links.back")),
-              projects_path, :class => 'btn'  %>
-  <%#= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_project_path(@project), :class => 'btn' %>
-  <%#= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              project_path(@project),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
 </div>

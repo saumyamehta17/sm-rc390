@@ -26,3 +26,24 @@ run server
 ```
 rails s
 ```
+
+Railscast sm-rc393
+```
+Guest user
+```
+Guest user mostly dont want to sign up or fill up all personal information, so we can craete a gues user for guest and let guest
+try the app
+```
+migration
+```
+rails g add_guest_to_user guest:boolean
+```
+Validate false
+```
+As we dont need any other information so we can save with  validate: false option
+```
+see devise, user, project, tasks
+```
+# todo
+```
+
