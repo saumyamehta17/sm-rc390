@@ -4,12 +4,14 @@ Railscast sm-rc390
 Turbolinks
 ```
 Using turbolinks make site twice fast, as it dont recompile javascript and css while each page change , it only replace body and title.
+You can check whether its working in network inspector in initiator(it will be using turbolinks.js).
+it uses pushSate to change url and javascript to replace body and title content on click.
 
 ```
 Gem file
 ```
 gem 'turbolinks'
-Moreover it is bydefualt in rails 4
+Moreover it is bydefault in rails 4
 ```
 
 Problem with it
@@ -31,7 +33,7 @@ Railscast sm-rc393
 ```
 Guest user
 ```
-Guest user mostly dont want to sign up or fill up all personal information, so we can craete a gues user for guest and let guest
+Guest user mostly dont want to sign up or fill up all personal information, so we can create a guest user for guest and let guest
 try the app
 ```
 migration
